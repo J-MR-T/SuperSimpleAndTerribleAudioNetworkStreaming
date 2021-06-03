@@ -8,7 +8,7 @@ import kotlin.math.sin
 
 fun main() {
 //    printMixers()
-    Mic()
+    Mic("129.187.211.177")
 //    val format = AudioFormat(22000f, 16, 2, true, true)
 //    val line = AudioSystem.getLine(getMic()?.sourceLineInfo?.first() ?: throw Exception()) as TargetDataLine;
 //    line.open(format)
@@ -27,7 +27,7 @@ fun getMic(name: String = "KT01"): Mixer? {
         .find { mixer -> "MICROPHONE" in mixer.sourceLineInfo.contentDeepToString().uppercase() }
 }
 
-class Mic {
+class Mic(host: String ="127.0.0.1") {
     private val portToSendTo = 25565
     private val portToSendFrom = 55055
     lateinit var line: TargetDataLine
@@ -36,7 +36,7 @@ class Mic {
     val channels = 2
     val sampleSize = 16
     val bigEndian = true
-    val addr: InetAddress = InetAddress.getByName("127.0.0.1")
+    val addr: InetAddress = InetAddress.getByName(host)
     val format = AudioFormat(encoding, rate, sampleSize, channels, sampleSize / 8 * channels, rate, bigEndian)
 
 

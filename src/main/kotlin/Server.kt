@@ -53,15 +53,8 @@ class Server(port: Int = 25565, val serverSocket: DatagramSocket = DatagramSocke
 
         val byteArrayInputStream = ByteArrayInputStream(receivePacket.data)
 
-        thread {
-            while(true) if(serverSocket.isConnected) println("Connected!")
-        }
-
         while (status) {
-            println("Listening")
             serverSocket.receive(receivePacket)
-            println("Received")
-            println(receiveData.contentToString())
             ais = AudioInputStream(byteArrayInputStream, format, receivePacket.length.toLong())
             toSpeaker(receivePacket.data)
         }
@@ -72,7 +65,6 @@ class Server(port: Int = 25565, val serverSocket: DatagramSocket = DatagramSocke
 
     fun toSpeaker(soundbytes: ByteArray) {
         try {
-            println("At the speaker")
             sourceDataLine.write(soundbytes, 0, soundbytes.size)
         } catch (e: Exception) {
             println("Not working in speakers...")
